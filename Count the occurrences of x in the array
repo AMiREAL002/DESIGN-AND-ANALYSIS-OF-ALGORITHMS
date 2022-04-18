@@ -1,0 +1,63 @@
+PROBLEM STATEMENT:
+Given a sorted array and a number x, write a function that counts the occurrences of x in the array. Expected time complexity is O(logn).
+
+ALGORITHM:
+1)	Use Binary search to get index of the first occurrence of x in arr[]. Let the index of the first occurrence be i. 
+
+2)	Use Binary search to get index of the last occurrence of x in arr[]. Let the index of the last occurrence be j. 
+
+3)	Return (j – i + 1).
+ 
+CODE:
+#include<stdio.h>
+
+int binarySearch(int arr[], int size, int x)
+{
+int low = 0;
+int high = size-1; if (high >= low) {
+int mid = low + (high - low) / 2;
+// If found at mid, then return it if (arr[mid] == x)
+return mid;
+// Search the left half if (arr[mid] > x)
+return binarySearch(arr, mid - 1,x);
+// Search the right half
+return binarySearch(arr, mid+1,x);
+}
+return -1;
+}
+
+int binarySearchCount(int arr[], int len, int x)
+{
+// get the index of element
+int indexData = binarySearch(arr, len, x);
+
+// get the leftCount
+int left = indexData - 1; int leftCount = 0;
+while(left>-1 && arr[left] == x)
+{
+leftCount++; left--;
+}
+
+// get the rightCount
+int right = indexData + 1; int rightCount = 0;
+while(right < len && arr[right] == x)
+{
+rightCount++;
+ 
+right++;
+}
+
+return (leftCount + 1 + rightCount);
+}
+
+int main(void)
+{
+int i, n, x, a[100];
+printf("Enter number of elements:"); scanf("%d",&n);
+printf("Enter %d integers:", n); for(i = 0; i < n; i++)
+scanf("%d",&a[i]);
+printf("Enter value to find occurence:"); scanf("%d", &x);
+int count = binarySearchCount(a, n, x); printf("count = %d", count);
+return 0;
+}
+ 
