@@ -1,0 +1,101 @@
+PROBLEM STATEMENT:
+Apply Strassen’s Matrix Multiplication strategy for odd dimensional square matrix.
+
+ALGORITHM
+begin 
+If n = threshold
+ then compute C = a * b is a conventional matrix. 
+Else Partition a into four sub matrices a11, a12, a21, a22. 
+Partition b into four sub matrices b11, b12, b21, b22.
+Strassen ( n/2, a11 + a22, b11 + b22, d1) 
+Strassen ( n/2, a21 + a22, b11, d2) 
+Strassen ( n/2, a11, b12 – b22, d3) 
+Strassen ( n/2, a22, b21 – b11, d4)
+Strassen ( n/2, a11 + a12, b22, d5) 
+Strassen (n/2, a21 – a11, b11 + b22, d6) 
+Strassen (n/2, a12 – a22, b21 + b22, d7)
+ C = d1+d4-d5+d7 d3+d5 d2+d4 d1+d3-d2-d6 
+end if 
+return (C) 
+end.
+
+CODE:
+#include<stdio.h>
+
+int main()
+
+{
+
+int i,j,k,a[10][10],b[10][10];
+
+int row1,col1,row2,col2,c[9][9];
+
+printf("enter the values of row1 and col1\n");
+
+scanf("%d%d",&row1,&col1);
+
+printf("enter the values of row2 and col2\n");
+
+scanf("%d%d",&row2,&col2);
+
+printf("enter the values of matrix1\n");
+
+for(i=0;i<row1;i++)
+
+{
+
+for(j=0;j<col1;j++)
+
+{
+
+scanf("%d",&a[i][j]);
+
+}
+
+}
+
+printf("enter the values of matrix2\n");
+
+for(i=0;i<row2;i++)
+
+{
+
+for(j=0;j<col2;j++)
+
+{
+
+scanf("%d",&b[i][j]);
+
+}
+
+}
+
+printf("Multiplication:\n");
+
+for(i=0;i<row1;i++)
+
+{
+
+for(j=0;j<col2;j++)
+
+{
+
+c[i][j]=0;
+
+for(k=0;k<row2;k++)
+
+{
+
+c[i][j]+=a[i][k]*b[k][j];
+
+}
+
+printf("%d ",c[i][j]);
+
+}
+
+printf("\n");
+
+}
+
+}
