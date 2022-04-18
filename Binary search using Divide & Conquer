@@ -1,0 +1,47 @@
+PROBLEM STATEMENT:
+1.Write a C program to implement Binary search using Divide & Conquer.
+ALGORITHM:
+int binarySearch(int array[], int x, int low, int high) 
+  if (high >= low) 
+    int mid = low + (high - low) / 2;
+    if (array[mid] == x)
+      return mid;
+    if (array[mid] > x)
+      return binarySearch(array, x, low, mid - 1);
+    return binarySearch(array, x, mid + 1, high);
+  else
+  return -1;
+
+
+CODE:
+#include<stdio.h>
+int binarySearch(int array[], int x, int low, int high) {
+  if (high >= low) {
+    int mid = low + (high - low) / 2;
+    // If found at mid, then return it
+    if (array[mid] == x)
+      return mid;
+    // Search the left half
+    if (array[mid] > x)
+      return binarySearch(array, x, low, mid - 1);
+    // Search the right half
+    return binarySearch(array, x, mid + 1, high);
+  }
+  return -1;
+}
+int main() {
+  int i, n, x, a[100];
+  printf("Enter number of elements:");
+  scanf("%d",&n);
+  printf("Enter %d integers:", n);
+  for(i = 0; i < n; i++)
+ 	scanf("%d",&a[i]);
+  printf("Enter value to find:");
+  scanf("%d", &x);
+
+  int result = binarySearch(a, x, 0, n - 1);
+  if (result == -1)
+    printf("Not found");
+  else
+    printf("Element is found at index %d", result);
+}
