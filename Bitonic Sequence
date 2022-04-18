@@ -1,0 +1,38 @@
+PROBLEM STATEMENT:
+A Bitonic Sequence is a sequence of numbers which is first strictly increasing then after a point strictly decreasing.
+A Bitonic Point is a point in bitonic sequence before which elements are strictly increasing and after which elements are strictly decreasing. Find bitonic point in a bitonic sequence.
+
+ALGORITHM
+
+•	We start off by finding the middle element, mid from the given nums array. If this element happens to be lying in a descending sequence of numbers or a local falling slope(found by comparing nums[i] to its right neighbor), it means that the peak will always lie towards the left of this element. Thus, we reduce the search space to the left of mid(including itself) and perform the same process on the left subarray.
+•	If the middle element, mid lies in an ascending sequence of numbers, or a rising slope(found by comparing nums[i] to its right neighbor), it obviously implies that the peak lies towards the right of this element. Thus, we reduce the search space to the right of mid and perform the same process on the right subarray.
+•	In this way, we keep on reducing the search space until we eventually reach a state where only one element is remaining in the search space. This single element is the peak element.
+In short,
+•	If mid element is greater than both of its adjacent elements, then mid is the peak element. Example — [1, 3, 5, 7, 6, 4, 2]
+•	If mid element is greater than its next element and smaller than the previous element then maximum lies on the left side of mid. Example — [1, 7, 6, 5, 4, 3]
+•	If mid element is smaller than its next element and greater than the previous element then maximum lies on the right side of mid. Example — [2, 4, 5, 6, 7, 3, 1]
+ 
+CODE:
+
+#include<stdio.h>
+int bitonic(int arr[], int left, int right)
+{
+if (left <= right)
+{
+int mid = (left+right)/2;
+if (arr[mid-1]<arr[mid] && arr[mid]>arr[mid+1]) return mid;
+if (arr[mid] < arr[mid+1])
+return bitonic(arr, mid+1,right); else
+return bitonic(arr, left, mid-1);
+}
+
+return -1;
+}
+int main()
+{
+int i, n, index, a[100]; printf("Enter number of elements:"); scanf("%d",&n);
+printf("Enter %d integers:", n); for(i = 0; i < n; i++)
+scanf("%d",&a[i]); index = bitonic(a, 0, n); if (index != -1)
+printf("Bitonic point is: %d",a[index]); return 0;
+}
+ 
