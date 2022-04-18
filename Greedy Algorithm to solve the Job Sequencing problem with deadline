@@ -1,0 +1,94 @@
+PROBLEM STATEMENT:
+Implement Greedy Algorithm to solve the Job Sequencing problem with deadline.
+
+ALGORITHM:
+1.	Sort the jobs for their profit in descending order.
+2.	Choose the uncompleted job with high profit (i.e. first job in the array, since the array is sorted). Because it is not necessary to complete the job on the very first date, we will do/complete the job on the last day of the deadline (i.e. Add the job to a new array/list at the index equal to its deadline day).
+3.	Now again choose the next uncompleted high-profit job. Check its deadline. If its deadline is greater than the deadline of the previous chosen job, then we will do/complete this job on the last day of the deadline only if the day is empty, else will do the job on the previous empty day which is nearest to the deadline ( i.e. Add the job to new array/list at the index equal or nearest to its deadline day, only if the array is empty at particular index).
+4.	If you don’t have the empty day before the job deadline (i.e. all the array index is occupied before the index=job.deadline) then do not do the job.
+5.	Repeat the process for every job.
+6.	The final array or list will give the best jobs to do for max profit.
+
+CODE:
+#include<bits/stdc++.h>
+using namespace std;
+
+// define the class for the job
+class job
+{
+	public:
+		int jobid;
+		int deadline;
+		int profit;
+};
+// our compare function to sort
+bool mycompare(job *x,job *y)//boolean function
+{
+	//sort as per decreasing profit
+	return x->profit>y->profit; 
+}
+
+int maxProfit(job** obj,int n){
+	int max=0,profit=0;;
+	//find maximum deadline
+	for(int i=0;i<n;i++){
+		if(i==0){
+			max=obj[i]->deadline;
+		}
+		else{
+			if(obj[i]->deadline>max)
+				max=obj[i]->deadline;
+		}
+	}
+	
+	sort(obj,obj+n,mycompare);
+	// create array of max deadline size
+	int store[max]={0};	// empty array initially
+	bool slot[max]={false}; //all slots empty initially
+	for(int i=0;i<n;i++)
+	{	
+		// now pick the job with max deadline and from 
+		// that deadline traverse array back to find an empty slot
+		for(int j=(obj[i]->deadline)-1;j>=0;j--)
+		{
+			if(slot[j]==false)	// slot is empty
+			{	
+				// count the total profit
+				profit+=obj[i]->profit;
+				store[j]=obj[i]->jobid;
+				slot[j]=true;
+				break;
+			}
+		}
+	}
+	// printing the job sequence
+	cout<<"jobs sequence is:"<<"\t";
+	for(int i=0;i<max;i++)
+	{	
+		if(slot[i])
+			cout<<store[i]<<"  ";
+	}
+	return profit; //return profit
+}
+
+int main()
+{	
+	int n,size,max,totalprofit=0;
+	cout<<"enter the no. of jobs:";
+	cin>>n;
+	job *obj[n]; //array of pointer to jobs(jobs namely) 
+	for(int i=0;i<n;i++)
+	{	
+		obj[i]=(job*)malloc(sizeof(struct job));
+		cout<<"enter jobid,deadline and profit of job "<<i+1<<endl;
+
+		cin>>obj[i]->jobid;
+		cin>>obj[i]->deadline;
+		cin>>obj[i]->profit;
+	}
+
+	totalprofit=maxProfit(obj,n); //total profit
+	cout<<"\ntotal profit is "<<totalprofit<<"\n";
+	
+	return 0;	
+}
