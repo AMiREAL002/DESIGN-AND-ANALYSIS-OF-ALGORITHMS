@@ -1,0 +1,59 @@
+PROBLEM STATEMENT:
+IMPLEMENT QUICK SORT USING DIVIDE & CONQUER ALGORITHM
+
+ALGORITHM :
+Quick Sort Pivot 
+Step 1 − Choose the highest index value has pivot
+Step 2 − Take two variables to point left and right of the list excluding pivot
+Step 3 − left points to the low index
+Step 4 − right points to the high
+Step 5 − while value at left is less than pivot move right
+Step 6 − while value at right is greater than pivot move left
+Step 7 − if both step 5 and step 6 does not match swap left and right
+Step 8 − if left ≥ right, the point where they met is new pivot
+Quick Sort 
+Step 1 − Make the right-most index value pivot
+Step 2 − partition the array using pivot value
+Step 3 − quicksort left partition recursively
+Step 4 − quicksort right partition recursively
+
+CODE:
+#include<stdio.h>
+void quicksort(int number[25],int first,int last){
+   int i, j, pivot, temp;
+   if(first<last){
+      pivot=first;
+      i=first;
+      j=last;
+      while(i<j){
+         while(number[i]<=number[pivot]&&i<last)
+         i++;
+         while(number[j]>number[pivot])
+         j--;
+         if(i<j){
+            temp=number[i];
+            number[i]=number[j];
+            number[j]=temp;
+         }
+      }
+      temp=number[pivot];
+      number[pivot]=number[j];
+      number[j]=temp;
+      quicksort(number,first,j-1);
+      quicksort(number,j+1,last);
+   }
+}
+int main(){
+   int i, count, number[25];
+   printf("How many elements are u going to enter?: ");
+   scanf("%d",&count);
+   printf("Enter %d elements: ", count);
+   for(i=0;i<count;i++)
+   scanf("%d",&number[i]);
+   quicksort(number,0,count-1);
+   printf("Order of Sorted elements: ");
+   for(i=0;i<count;i++)
+   printf(" %d",number[i]);
+   return 0;
+}
+
